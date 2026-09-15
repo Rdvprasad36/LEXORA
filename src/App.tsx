@@ -14,7 +14,7 @@ export default function App() {
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [config, setConfig] = useState<ApiConfig>({
     geminiApiKey: '',
-    dbProvider: 'firebase',
+    dbProvider: 'supabase',
     supabaseUrl: '',
     supabaseKey: '',
   });

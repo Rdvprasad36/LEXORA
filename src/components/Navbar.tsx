@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scale, ShieldCheck } from 'lucide-react';
+import { Scale, Settings, Database } from 'lucide-react';
 import { ApiConfig } from '../types';
 
 interface NavbarProps {
@@ -30,12 +30,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConfig, config, onNavigate
 
         <div className="flex items-center space-x-3">
           <div className="hidden md:flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-800 text-xs rounded-full border border-emerald-200">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="font-medium">Firebase Secure Cloud</span>
+            <Database className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="font-medium capitalize">{config.dbProvider} Connected</span>
           </div>
         </div>
       </div>
     </header>
   );
 };
+
 

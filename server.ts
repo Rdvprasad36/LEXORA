@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 let documentsDb: Map<string, DocumentRecord> = new Map();
 let apiConfig: ApiConfig = {
   geminiApiKey: process.env.GEMINI_API_KEY || "",
-  dbProvider: "firebase",
-  supabaseUrl: "",
-  supabaseKey: "",
+  dbProvider: "supabase",
+  supabaseUrl: process.env.SUPABASE_URL || "https://your-project.supabase.co",
+  supabaseKey: process.env.SUPABASE_KEY || "",
 };
 
 // Seed demo sample document for instant preview
@@ -318,7 +318,7 @@ app.post("/api/documents/upload", upload.single("file"), async (req, res) => {
         const prompt = `Analyze this legal document text and provide a structured JSON response with documentType, title, executiveSummary, and key clauses with categories ('payment' | 'termination' | 'liability' | 'ip' | 'confidentiality' | 'indemnity' | 'dispute' | 'governing_law' | 'other') and risk findings. Document text:\n${textContent.slice(0, 8000)}`;
         
         const response = await ai.models.generateContent({
-          model: "gemini-2.0-flash",
+          model: "gemini-3.6-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json"
@@ -383,7 +383,7 @@ User Question: ${question}
 Provide a precise, grounded answer with confidence score (0 to 1) and evidence citation.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-3.6-flash",
         contents: prompt
       });
       answer = response.text || "Based on the document analysis, this matter is governed by standard contract provisions.";
