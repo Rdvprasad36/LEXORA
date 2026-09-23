@@ -1,0 +1,8 @@
+{
+  "$schema": "https://oxc.rs/schema/oxlintrc.json",
+  "plugins": ["typescript", "react"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "eqeqeq": "error"
+  }
+}
