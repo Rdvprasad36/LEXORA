@@ -1,0 +1,8 @@
+{
+  "name": "Lexora — Legal Document Navigator & Analyzer",
+  "description": "A context-aware legal document navigator and analysis platform powered by Gemini AI and deterministic evidence verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
+
