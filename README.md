@@ -54,6 +54,48 @@ The app runs at `http://localhost:3000`. You can also click **"Explore Prepared 
 
 ---
 
+## Repository Structure
+
+```text
+├── .env.example                  # Environment variables template
+├── .gitignore                    # Git ignored files and directories
+├── .oxlintrc.json                # Oxlint rules configuration
+├── README.md                     # Product overview and quick-start docs
+├── api/
+│   └── analyze.ts                # Vercel serverless API endpoint
+├── docs/
+│   ├── ARCHITECTURE.md           # Core architecture & dual-pipeline spec
+│   ├── LIVE_VALIDATION.md        # Live validation workflow & quota logs
+│   ├── RISKS.md                  # Security, fuzzy-matching & prompt injection analysis
+│   └── adr/                      # Architecture Decision Records (ADR 0001-0006)
+├── public/
+│   ├── favicon.svg               # App favicon
+│   └── pdf.worker.min.mjs        # Self-hosted PDF.js worker
+├── scripts/
+│   ├── audit-evidence.ts         # Evidence matching audit helper
+│   ├── generate-fixtures.ts      # Test fixtures generator
+│   └── run-live-validation.ts    # End-to-end live validation script
+├── src/
+│   ├── App.tsx                   # Main state machine & top-level orchestration
+│   ├── main.tsx                  # React application entry point
+│   ├── App.css                   # Tailwind and custom app styles
+│   ├── index.css                 # Global CSS entry
+│   ├── components/               # UI components (Landing, Dashboard, PDF Viewer, etc.)
+│   ├── hooks/                    # Custom React hooks (useEvidence, useCache, etc.)
+│   └── lib/                      # Domain models, schema, API wrapper, PDF logic, evidence matcher
+│       └── __tests__/            # Comprehensive unit and integration test suites
+├── tests/                        # Smoke and validation test suites & fixtures
+├── package.json                  # Dependencies and build scripts
+├── tsconfig.json                 # TypeScript compiler configuration
+├── vite.config.ts                # Vite dev server proxy configuration
+├── vitest.config.ts              # Vitest test suite configuration
+├── vercel.json                   # Vercel serverless deployment routing config
+├── server.ts                     # Express full-stack dev server with Gemini orchestration
+└── index.html                    # HTML entry point with metadata sync
+```
+
+---
+
 ## Architecture & Security
 - **No Database:** All state is ephemeral. Legal documents never leave your session or browser.
 - **Dual Pipeline:** Gemini analysis (server) and evidence verification (client-side PDF.js/text engine) are fully independent.
