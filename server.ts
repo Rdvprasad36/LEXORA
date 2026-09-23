@@ -23,7 +23,7 @@ const ai = new GoogleGenAI({
   },
 });
 
-function generateFallbackAnalysis(documentText: string, role: string, concern: string, documentTitle: string) {
+function generateFallbackAnalysis(documentText: string, role: string, concern: string, documentTitle: string, jurisdiction?: string) {
   // Extract a few sentences from documentText to serve as verbatim quotes
   const sentences = documentText
     .split(/\r?\n|[.?!]+/)
@@ -38,7 +38,7 @@ function generateFallbackAnalysis(documentText: string, role: string, concern: s
     documentTitle: documentTitle || 'Legal Document Review',
     documentType: documentTitle.includes('Lease') ? 'Commercial Lease Agreement' : documentTitle.includes('NDA') ? 'Non-Disclosure Agreement' : 'Legal Agreement / Contract',
     overallRiskScore: 65,
-    executiveSummary: `Analysis generated for ${role || 'General Reader'} regarding "${concern || 'General Legal Review'}". Note: Primary AI models experienced temporary high demand/rate limits, so Lexora generated this structured fallback analysis based on document text parsing. Review key obligations and risks below.`,
+    executiveSummary: `Analysis generated for ${role || 'General Reader'} regarding "${concern || 'General Legal Review'}" under jurisdiction "${jurisdiction || 'General / Standard'}". Note: Primary AI models experienced temporary high demand/rate limits, so Lexora generated this structured fallback analysis based on document text parsing. Review key obligations and risks below.`,
     targetRole: role || 'General Reader',
     targetConcern: concern || 'General Legal Review',
     findings: [
@@ -143,16 +143,17 @@ async function startServer() {
   // API endpoint for legal document analysis
   app.post('/api/analyze', async (req, res) => {
     try {
-      const { documentText, role, concern, documentTitle, imageBase64, imageMimeType } = req.body;
+      const { documentText, role, concern, documentTitle, imageBase64, imageMimeType, jurisdiction } = req.body;
 
       if (!documentText && !imageBase64) {
         return res.status(400).json({ error: 'Document text or image is required.' });
       }
 
       const prompt = `You are Lexora, an expert AI legal assistant and document navigator. 
-Analyze the following legal document with extreme precision for a user who identifies as "${role || 'General Reader'}" with the specific primary concern: "${concern || 'General Legal Review'}".
+Analyze the following legal document with extreme precision for a user who identifies as "${role || 'General Reader'}" with the specific primary concern: "${concern || 'General Legal Review'}" under jurisdiction: "${jurisdiction || 'General / Standard'}".
 
 Document Title: ${documentTitle || 'Untitled Legal Document'}
+Jurisdiction / Framework: ${jurisdiction || 'General / Standard'}
 Document Text:
 """
 ${documentText ? documentText.slice(0, 30000) : '(See attached document image for OCR and analysis)'}
@@ -248,7 +249,7 @@ Provide a thorough, structured, schema-compliant legal analysis focusing specifi
       });
 
       if (!analysis) {
-        analysis = generateFallbackAnalysis(documentText, role, concern, documentTitle);
+        analysis = generateFallbackAnalysis(documentText, role, concern, documentTitle, jurisdiction);
       }
 
       res.json({ analysis });

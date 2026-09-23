@@ -12,6 +12,7 @@ export interface AnalyzeRequest {
   documentTitle?: string;
   imageBase64?: string;
   imageMimeType?: string;
+  jurisdiction?: string;
 }
 
 export async function analyzeLegalDocument(payload: AnalyzeRequest): Promise<LegalAnalysisResult> {

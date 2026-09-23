@@ -24,6 +24,7 @@ export const HeroLanding: React.FC<HeroLandingProps> = ({ onAnalysisComplete, on
   const [imageMimeType, setImageMimeType] = useState<string | undefined>(undefined);
   const [role, setRole] = useState<string>(DEMO_CONTEXTS[0].role);
   const [concern, setConcern] = useState<string>(DEMO_CONTEXTS[0].concern);
+  const [jurisdiction, setJurisdiction] = useState<string>('US Federal / General Contract Law');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'demo' | 'upload'>('demo');
@@ -79,6 +80,7 @@ export const HeroLanding: React.FC<HeroLandingProps> = ({ onAnalysisComplete, on
             role,
             concern,
             documentTitle: docTitle,
+            jurisdiction,
           });
           onAnalysisComplete(result, docText, docTitle);
           return;
@@ -100,6 +102,7 @@ export const HeroLanding: React.FC<HeroLandingProps> = ({ onAnalysisComplete, on
           documentTitle: docTitle,
           imageBase64,
           imageMimeType,
+          jurisdiction,
         });
         onAnalysisComplete(result, docText, docTitle);
       }
@@ -256,6 +259,24 @@ export const HeroLanding: React.FC<HeroLandingProps> = ({ onAnalysisComplete, on
                 />
               </div>
             </div>
+          </div>
+
+          <div className="mt-6">
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
+              Legal Jurisdiction / Regulatory Framework
+            </label>
+            <select
+              value={jurisdiction}
+              onChange={(e) => setJurisdiction(e.target.value)}
+              className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
+            >
+              <option value="US Federal / General Contract Law">US Federal / General Contract Law</option>
+              <option value="California (CCPA / Employment & Labor Standards)">California (CCPA / Employment & Labor Standards)</option>
+              <option value="Delaware Corporate Law">Delaware Corporate Law</option>
+              <option value="New York Commercial Law">New York Commercial Law</option>
+              <option value="European Union (GDPR & Consumer Rights)">European Union (GDPR & Consumer Rights)</option>
+              <option value="United Kingdom (UK Commercial & Employment)">United Kingdom (UK Commercial & Employment)</option>
+            </select>
           </div>
 
           {error && (
