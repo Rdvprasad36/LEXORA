@@ -15,6 +15,12 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onReset, onOpenArchitecture, hasAnalysis }) => {
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-neutral-900 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
       {/* Zone 1: Brand Wordmark */}
       <div className="flex items-center gap-3">
         <button onClick={onReset} className="flex items-center gap-2.5 text-left group focus:outline-none">

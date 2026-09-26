@@ -36,7 +36,7 @@ export default function App() {
         hasAnalysis={!!analysis}
       />
 
-      <main className="flex-1">
+      <main className="flex-1" id="main-content">
         {!analysis ? (
           <HeroLanding
             onAnalysisComplete={handleAnalysisComplete}
