@@ -133,7 +133,7 @@ ${documentText ? documentText.slice(0, 30000) : '(See attached document image fo
     }
     contents.push(prompt);
 
-    const modelsToTry = ['gemini-flash-lite-latest', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-3.6-flash', 'gemini-3.8-flash'];
+    const modelsToTry = ['gemini-flash-lite-latest', 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
     let analysisResult: any = null;
 
     for (const model of modelsToTry) {
@@ -142,13 +142,14 @@ ${documentText ? documentText.slice(0, 30000) : '(See attached document image fo
           model,
           contents,
           config: {
+            systemInstruction: 'You are Lexora, a deterministic legal analysis assistant providing informational analysis only. Always return strictly valid JSON matching the requested schema.',
             responseMimeType: 'application/json',
             responseSchema: {
               type: Type.OBJECT,
               properties: {
                 documentTitle: { type: Type.STRING },
                 documentType: { type: Type.STRING },
-                overallRiskScore: { type: Type.NUMBER },
+                overallRiskScore: { type: Type.INTEGER },
                 executiveSummary: { type: Type.STRING },
                 targetRole: { type: Type.STRING },
                 targetConcern: { type: Type.STRING },
@@ -194,7 +195,7 @@ ${documentText ? documentText.slice(0, 30000) : '(See attached document image fo
                   items: { type: Type.STRING },
                 },
               },
-              required: ['documentTitle', 'documentType', 'overallRiskScore', 'executiveSummary', 'findings', 'keyObligations', 'questionsForProfessional', 'optionsAndNextSteps'],
+              required: ['documentTitle', 'documentType', 'overallRiskScore', 'executiveSummary', 'targetRole', 'targetConcern', 'findings', 'keyObligations', 'questionsForProfessional', 'optionsAndNextSteps'],
             },
           },
         });
@@ -212,7 +213,7 @@ ${documentText ? documentText.slice(0, 30000) : '(See attached document image fo
       analysisResult = generateFallbackAnalysis(documentText || '', role, concern, documentTitle, jurisdiction);
     }
 
-    return res.status(200).json(analysisResult);
+    return res.status(200).json({ analysis: analysisResult });
   } catch (err: any) {
     console.error('API Error:', err);
     return res.status(500).json({ error: err.message || 'Internal server error' });

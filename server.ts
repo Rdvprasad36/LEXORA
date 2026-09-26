@@ -111,7 +111,7 @@ function generateFallbackAnalysis(documentText: string, role: string, concern: s
 }
 
 async function callGeminiWithFallback(fn: (modelName: string) => Promise<any>): Promise<any> {
-  const modelsToTry = ['gemini-flash-lite-latest', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-3.6-flash', 'gemini-3.8-flash'];
+  const modelsToTry = ['gemini-flash-lite-latest', 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
   let lastError: any = null;
 
   for (const model of modelsToTry) {
